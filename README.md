@@ -24,6 +24,7 @@ subplot(1,3,1), hist(categorical(testTable.gender))
 subplot(1,3,2), hist(categorical(testTable.name))
 subplot(1,3,3), hist(categorical(testTable.eye_color))
 ```
+![Histogram](Figures/hist1.png)
 ## Create a Table and convert it to DataFrame
 ```Matlab
 % then use Pandas to sample from it and create new dataframe, then convert it to Table
@@ -44,6 +45,7 @@ df2 = py.pandas.DataFrame(py.eval(jsonStr, py.dict()));
 df_sampled = df2.sample(int64(10), replace=true);
 table_sampled = df2t(df_sampled)
 ```
+![table1](Figures/table1.png)
 ## Convert a Series to Table
 ```Matlab
 % Create a Series of random integers using numpy.random and convert to table 
@@ -51,12 +53,16 @@ rng = py.numpy.random.RandomState(int64(42));
 integers = rng.randint(int64(0), int64(10), int64(4));
 pySeries = py.pandas.Series(integers, pyargs('name', 'integers'));
 matSeries = df2t(pySeries)
-
+```
+![table2](Figures/table2.png)
+```Matlab
 % Create a Series of random integers using Matlab rand with letters as indexes
 % and convert to Matlab.
 pySeries = py.pandas.Series(rand(1,4), pyargs('name', 'real','index', {'a', 'b', 'c', 'd'}));
 df2t(pySeries)
-
+```
+![table3](Figures/table3.png)
+```Matlab
 % Create a Series of strings 
 data_list = {"Jeff Bezos", "Elon Musk",...
              "Bernard Arnault", "Bill Gates", "Warren Buffett"};
@@ -64,3 +70,4 @@ pySeries = py.pandas.Series(data_list, pyargs('name', 'Billioners','index', int6
 billioners = df2t(pySeries);
 billioners([2:3],:)
 ```
+![table2](Figures/table4.png)
