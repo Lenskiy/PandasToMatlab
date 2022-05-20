@@ -26,23 +26,23 @@ subplot(1,3,3), hist(categorical(testTable.eye_color))
 ```
 ## Create a Table and convert it to DataFrame
 ```Matlab
-% then use Pandas to sample from it and create new dataframe, then convert it to Table
-LastName        = {"Sanchez";"Johnson";"Li";"Diaz";"Brown"};
+% then use Pandas to sample from it and create new dataframe, and convert it to Table
+Name            = {["Roger", "Sanchez"];
+                   ["Paul", "Johnson"];
+                   ["Lisa", "Li"];
+                   ["Don", "Diaz"];
+                   ["Havana ", "Brown"]};
 Age             = [38;43;38;40;49];
 Smoker          = logical([1;0;1;0;1]);
 Height          = [71;69;64;67;64];
 Weight          = [176;163;131;133;119];
 BloodPressure   = [124 93; 109 77; 125 83; 117 75; 122 80];
-T = table(LastName,Age,Smoker,Height,Weight,BloodPressure);
-T.BMI = (T.Weight * 0.453592)./(T.Height * 0.0254).^2;
-df = table2dataframe(T);
-% Convert to json string
-jsonStr = df.to_json;
-% Convert back to dataframe
-df2 = py.pandas.DataFrame(py.eval(jsonStr, py.dict()));
+T = table(Name,Age,Smoker,Height,Weight,BloodPressure);
+T.BMI           = (T.Weight * 0.453592)./(T.Height * 0.0254).^2;
+df              = t2df(T);
 % Sample from the dataframe
-df_sampled = df2.sample(int64(10), replace=true);
-table_sampled = df2t(df_sampled)
+df_sampled      = df.sample(int64(10), replace=true);
+table_sampled   = df2t(df_sampled)
 ```
 ## Convert a Series to Table
 ```Matlab
