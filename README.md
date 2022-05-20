@@ -1,6 +1,6 @@
 # PythonToMatlab
 The functions are designed to convert Pandas DataFrames and Series to Matlab and back.
-Function *df2t* converts DataFrames and Series to Matlab in memory w/o saving anything to the disk, while *t2df* is simply saves a csv file that is then loaded by Python.
+Function *df2t* converts DataFrames and Series to Matlab in memory w/o saving anthing to the disk, while *t2df* converts Table to DataFrame.
 
 ## Make sure to set up Python in Matlab
 ```Matlab
