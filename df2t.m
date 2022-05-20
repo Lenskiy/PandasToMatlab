@@ -13,7 +13,24 @@ function tab = df2t(df)
         for k = 1:length(headerCells)
             header(k) = headerCells(k).string;
         end
-        tab.Properties.VariableNames  = header;
+        
+
+        % Check if there are columns with the same name
+        if(length(unique(header)) == length(header))
+            tab.Properties.VariableNames = header;
+        else
+            for name = unique(header)
+                sameNameCol = find(name == header);
+                if(length(sameNameCol) == 1)
+                    continue;
+                end
+                tab = [tab(:,1:sameNameCol(1)-1), table(tab(:, sameNameCol).Variables, 'VariableName', name), tab(:,sameNameCol(1):end)];
+                tab(:, sameNameCol+1) = [];
+                header(sameNameCol(2:end)) = [];
+            end
+            tab.Properties.VariableNames = header;
+        end
+
     elseif(py.isinstance(df, py.type(py.pandas.Series)))
         for l = 1:length(records)
             [value, valType] = fieldDecoding(records{l});
@@ -35,7 +52,10 @@ function row = recordDecoding(record)
 end
 
 function [value, type] = fieldDecoding(field)
-    if(py.isinstance(field, py.type(py.int)))
+    if(py.isinstance(field, py.type(py.bool)))
+        value = logical(field);
+        type = 'logical';
+    elseif(py.isinstance(field, py.type(py.int)))
         value = field.int64;
         type = 'int64';
     elseif(py.isinstance(field, py.type(py.str)))
@@ -47,9 +67,6 @@ function [value, type] = fieldDecoding(field)
     elseif(py.isinstance(field, py.type(py.complex)))
         value = complex(field);
         type = 'complex';
-    elseif(py.isinstance(field, py.type(py.bool)))
-        value = logical(field);
-        type = 'logical';
     elseif(py.isinstance(field, py.type(py.list)))
         value = cell(field);
         type = 'cell';
