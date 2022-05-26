@@ -27,7 +27,7 @@ function df = t2df(tab)
             elseif contains(types{k}, 'int')
                 %pandasColumn = py.pandas.DataFrame(column(:,l), columns = {names{k}}, dtype=types{k});
                 pandasColumn = py.pandas.DataFrame(arrayfun(@(x) py.int(x), column(:,l), 'UniformOutput', false)', columns = {names{k}}, dtype=types{k});
-            elseif matches(types{k}, 'char')
+            elseif matches(types{k}, 'char') || matches(types{k}, 'string')
                 %pandasColumn = py.pandas.DataFrame(column(:,l), columns = {names{k}}, dtype="string");
                 pandasColumn = py.pandas.DataFrame(arrayfun(@(x) py.str(x), column(:,l), 'UniformOutput', false)', columns = {names{k}}, dtype="string");
             elseif matches(types{k}, 'double') || matches(types{k}, 'float')
@@ -35,7 +35,7 @@ function df = t2df(tab)
                   pandasColumn = py.pandas.DataFrame(arrayfun(@(x) py.float(x), column(:,l), 'UniformOutput', false)', columns = {names{k}}, dtype="float");
                 
             else
-                error("unknown type");
+                error("unknown type: " + string(types{k}));
             end
             df = py.pandas.concat({df, pandasColumn}, axis = 1);
         end
