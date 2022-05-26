@@ -11,9 +11,9 @@ function df = t2df(tab)
         else
             column = tab(:,k).Variables;
         end
-        % Tables are allowed to have two columns under othe same name.
-        % Hence, iterate over subcolumns and split them to different
-        % columns
+        % Tables are allowed to have a few columns with the same name.
+        % Hence, iterate over subcolumns and split them into different
+        % columns so Dataframe can be created
         for l = 1:size(column, 2) 
             if matches(types{k}, 'cell')
                 if(size(column(:,l), 1) ~= 1)
@@ -22,16 +22,12 @@ function df = t2df(tab)
                     pandasColumn = py.pandas.DataFrame(column(:,l).cellstr, columns = {names{k}}, dtype="string");
                 end
             elseif matches(types{k}, 'logical')
-                    %pandasColumn = py.pandas.DataFrame(int64(column(:,l)), columns = {names{k}}, dtype="bool");
                     pandasColumn = py.pandas.DataFrame(arrayfun(@(x) py.bool(x), column(:,l), 'UniformOutput', false)', columns = {names{k}}, dtype="bool");
             elseif contains(types{k}, 'int')
-                %pandasColumn = py.pandas.DataFrame(column(:,l), columns = {names{k}}, dtype=types{k});
                 pandasColumn = py.pandas.DataFrame(arrayfun(@(x) py.int(x), column(:,l), 'UniformOutput', false)', columns = {names{k}}, dtype=types{k});
             elseif matches(types{k}, 'char') || matches(types{k}, 'string')
-                %pandasColumn = py.pandas.DataFrame(column(:,l), columns = {names{k}}, dtype="string");
                 pandasColumn = py.pandas.DataFrame(arrayfun(@(x) py.str(x), column(:,l), 'UniformOutput', false)', columns = {names{k}}, dtype="string");
             elseif matches(types{k}, 'double') || matches(types{k}, 'float')
-%                 pandasColumn = py.pandas.DataFrame(column(:,l), columns = {names{k}}, dtype="float");
                   pandasColumn = py.pandas.DataFrame(arrayfun(@(x) py.float(x), column(:,l), 'UniformOutput', false)', columns = {names{k}}, dtype="float");
                 
             else
