@@ -71,3 +71,10 @@ billioners = df2t(pySeries);
 billioners([2:3],:)
 ```
 ![table2](Figures/table4.png)
+
+## Related Utilities
+
+[``py2mat.m``](https://github.com/Apress/python-for-matlab-development/blob/main/code/matlab_py/py2mat.m)
+and
+[``mat2py.m``](https://github.com/Apress/python-for-matlab-development/blob/main/code/matlab_py/mat2py.m)
+convert generic Python variables to Matlab variables and vice versa.
